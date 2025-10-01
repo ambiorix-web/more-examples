@@ -1,0 +1,54 @@
+body {
+  background-color: #f8fafc;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.card-body {
+  padding: 1.75rem;
+}
+
+.badge-soft {
+  background-color: rgba(13, 110, 253, 0.12);
+  color: #0d6efd;
+}
+
+.navbar .nav-link {
+  color: #6b7280;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+  color: #0d6efd;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: #495057;
+  margin-right: 0.25rem;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #ffffff;
+  border-bottom: 3px solid #0d6efd;
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+.nav-pills .nav-link {
+  background-color: rgba(13, 110, 253, 0.08);
+  color: #0d6efd;
+  border-radius: 999px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+main {
+  background: #f8fafc;
+}
