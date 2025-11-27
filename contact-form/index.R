@@ -275,6 +275,7 @@ contact_get <- function(req, res) {
 contact_post <- function(req, res) {
   data <- parse_form_urlencoded(req)
   print(data)
+  # perform action to `data`: save to db, send email, etc.
 
   content <- tags$div(
     class = "container",
