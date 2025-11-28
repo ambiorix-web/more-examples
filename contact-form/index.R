@@ -110,10 +110,12 @@ TextAreaInput <- function(
 #' Radio Button Input
 #'
 #' @param id String /// Required. Input ID of the container.
-#' @param choices Character vector /// Required. Choices to show.
+#' @param choices [Named] List or character vector /// Required.
+#'        Choices to show.
+#'        If named, must be of the format `value = label`.
 #' @param selected String /// Optional. The selected option in `choices`.
 #' @param alignment String /// Optional. Alignment of the choices.
-#' Either "stacked" (default), or "inline".
+#'        Either "stacked" (default), or "inline".
 #'
 #' @return [htmltools::tagList]
 #' @export
@@ -125,10 +127,16 @@ RadioButtonInput <- function(
 ) {
   alignment <- match.arg(arg = alignment)
 
+  values <- names(choices)
+  if (is.null(values)) {
+    values <- choices
+  }
+
   radios <- lapply(
     X = seq_along(choices),
     FUN = \(idx) {
       choice <- choices[[idx]]
+      value <- values[[idx]]
       choice_id <- paste0(id, idx)
 
       checked <- NULL
@@ -150,7 +158,7 @@ RadioButtonInput <- function(
           name = id,
           id = choice_id,
           checked = checked,
-          value = choice
+          value = value
         ),
         tags$label(
           class = "form-check-label",
@@ -268,7 +276,10 @@ contact_get <- function(req, res) {
             ),
             RadioButtonInput(
               id = "inquiry_type",
-              choices = c("General Inquiry", "Price Inquiry"),
+              choices = list(
+                general = "General Inquiry",
+                price = "Price Inquiry"
+              ),
               selected = "General Inquiry",
               alignment = "inline"
             )
