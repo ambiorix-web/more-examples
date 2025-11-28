@@ -21,6 +21,11 @@ box::use(
     page[
       Page,
     ],
+  .. /
+    utils /
+    create_href[
+      create_href,
+    ],
 )
 
 #' Handle GET at '/contact'
@@ -47,7 +52,7 @@ contact_post <- function(req, res) {
           class = "mb-0",
           "Thank you! Your request has been received. Our team will get back to you within 48 hours.",
           tags$a(
-            href = "/contact",
+            href = create_href(href = "/contact"),
             "Submit another request?"
           )
         )

@@ -3,7 +3,12 @@ box::use(
     tags,
     HTML,
     tagList,
-  ]
+  ],
+  .. /
+    utils /
+    create_href[
+      create_href,
+    ],
 )
 
 #' Generic UI page
@@ -31,7 +36,7 @@ Page <- function(..., title = "Forms") {
         tags$title(title),
         tags$link(
           rel = "stylesheet",
-          href = "/static/bootstrap-5.3.8/bootstrap.min.css"
+          href = create_href(href = "/static/bootstrap-5.3.8/bootstrap.min.css")
         ),
         tags$link(
           rel = "stylesheet",
@@ -40,7 +45,11 @@ Page <- function(..., title = "Forms") {
       ),
       tags$body(
         ...,
-        tags$script(src = "/static/bootstrap-5.3.8/bootstrap.bundle.min.js")
+        tags$script(
+          src = create_href(
+            href = "/static/bootstrap-5.3.8/bootstrap.bundle.min.js"
+          )
+        )
       )
     )
   )

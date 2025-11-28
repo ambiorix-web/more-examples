@@ -14,6 +14,11 @@ box::use(
       TextAreaInput,
       RadioButtonInput,
     ],
+  .. /
+    utils /
+    create_href[
+      create_href,
+    ],
 )
 
 #' Contact page UI
@@ -31,7 +36,7 @@ UI <- function() {
           "Contact Us"
         ),
         tags$form(
-          action = "/contact",
+          action = create_href(href = "/contact"),
           method = "post",
           tags$div(
             class = "row mb-3",

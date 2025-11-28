@@ -7,6 +7,12 @@ box::use(
     page[
       Page,
     ],
+
+  .. /
+    utils /
+    create_href[
+      create_href,
+    ],
 )
 
 #' Home page UI
@@ -19,7 +25,7 @@ UI <- function() {
     tags$p(
       "We're building a contact page. Visit",
       tags$a(
-        href = "/contact",
+        href = create_href(href = "/contact"),
         "/contact"
       ),
       "to see it."
