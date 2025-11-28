@@ -37,13 +37,10 @@ Page <- function(..., title = "Forms") {
         tags$link(
           rel = "stylesheet",
           href = create_href(href = "/static/bootstrap-5.3.8/bootstrap.min.css")
-        ),
-        tags$link(
-          rel = "stylesheet",
-          href = "/static/styles.css"
         )
       ),
       tags$body(
+        class = "bg-light",
         ...,
         tags$script(
           src = create_href(

@@ -21,14 +21,23 @@ box::use(
 UI <- function() {
   content <- tags$div(
     class = "container",
-    tags$h3("Hello, World!"),
-    tags$p(
-      "We're building a contact page. Visit",
-      tags$a(
-        href = create_href(href = "/contact"),
-        "/contact"
-      ),
-      "to see it."
+    tags$div(
+      class = "card my-5 border-0 shadow",
+      tags$div(
+        class = "card-body",
+        tags$h3(
+          class = "card-title",
+          "Hello, World!"
+        ),
+        tags$p(
+          "We're building a contact page form. Visit",
+          tags$a(
+            href = create_href(href = "/contact"),
+            "/contact"
+          ),
+          "to see it."
+        )
+      )
     )
   )
 
