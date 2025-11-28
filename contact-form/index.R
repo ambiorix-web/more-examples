@@ -47,13 +47,19 @@ Page <- function(..., title = "Forms") {
 
 #' Text Input
 #'
+#' @param ... Named attributes /// Optional. Passed to the input tag.
 #' @param id String /// Required. Input ID.
 #' @param label [htmltools::tags] /// Required. Input label.
 #' @param type String /// Optional. Either "text" (default) or "email".
 #'
 #' @return [htmltools::tags]
 #' @export
-TextInput <- function(id, label, type = c("text", "email")) {
+TextInput <- function(
+  ...,
+  id,
+  label,
+  type = c("text", "email")
+) {
   type <- match.arg(arg = type)
 
   tags$div(
@@ -66,19 +72,25 @@ TextInput <- function(id, label, type = c("text", "email")) {
       id = id,
       name = id,
       type = type,
-      class = "form-control"
+      class = "form-control",
+      ...
     )
   )
 }
 
 #' Text Area Input
 #'
+#' @param ... Named attributes /// Optional. Passed to the textarea tag.
 #' @param id String /// Required. Input ID.
 #' @param label [htmltools::tags] /// Required. Input label.
 #'
 #' @return [htmltools::tags]
 #' @export
-TextAreaInput <- function(id, label) {
+TextAreaInput <- function(
+  ...,
+  id,
+  label
+) {
   tags$div(
     tags$label(
       class = "form-label",
@@ -89,7 +101,8 @@ TextAreaInput <- function(id, label) {
       name = id,
       id = id,
       class = "form-control",
-      rows = "3"
+      rows = "3",
+      ...
     )
   )
 }
@@ -231,11 +244,20 @@ contact_get <- function(req, res) {
             class = "row mb-3",
             tags$div(
               class = "col-12 col-md-6",
-              TextInput(id = "full_name", label = "Full Name")
+              TextInput(
+                id = "full_name",
+                label = "Full Name",
+                required = NA
+              )
             ),
             tags$div(
               class = "col-12 col-md-6",
-              TextInput(id = "email", label = "Email", type = "email")
+              TextInput(
+                id = "email",
+                label = "Email",
+                type = "email",
+                required = NA
+              )
             )
           ),
           tags$div(
@@ -253,11 +275,19 @@ contact_get <- function(req, res) {
           ),
           tags$div(
             class = "mb-3",
-            TextAreaInput(id = "message", label = "Message")
+            TextAreaInput(
+              id = "message",
+              label = "Message",
+              required = NA
+            )
           ),
           tags$div(
             class = "d-grid",
-            Button(label = "Submit", type = "submit", class = "btn-primary")
+            Button(
+              label = "Submit",
+              type = "submit",
+              class = "btn-primary"
+            )
           )
         )
       )
