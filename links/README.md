@@ -4,6 +4,8 @@ This example highlights how an [ambiorix](https://github.com/ambiorix-dev/ambior
 application can expose links that jump straight to a specific
 page, panel, and tab combination.
 
+- [Live app](https://try.ambiorix.dev/links)
+
 ## Requirements
 
 - R (>= 4.1)
