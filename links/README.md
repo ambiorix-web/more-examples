@@ -1,4 +1,4 @@
-# Ambiorix Deep Link Showcase
+# Deep Link Showcase
 
 This example highlights how an [ambiorix](https://github.com/ambiorix-dev/ambiorix)
 application can expose links that jump straight to a specific
@@ -18,7 +18,7 @@ install.packages(c("ambiorix", "htmltools", "base64enc"))
 ## Run the app
 
 ```bash
-Rscript app.R
+Rscript index.R
 ```
 
 Visit the printed URL (defaults to <http://127.0.0.1:3000/pages/welcome/orientation/tour>).
