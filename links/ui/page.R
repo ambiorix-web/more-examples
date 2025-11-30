@@ -35,7 +35,7 @@ Page <- function(..., title = "Deep Links") {
         tags$title(title),
         tags$link(
           rel = "stylesheet",
-          href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          href = create_href(href = "/static/bootstrap-5.3.8/bootstrap.min.css")
         ),
         tags$link(
           rel = "stylesheet",
@@ -45,7 +45,9 @@ Page <- function(..., title = "Deep Links") {
       tags$body(
         ...,
         tags$script(
-          src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          src = create_href(
+            href = "/static/bootstrap-5.3.8/bootstrap.bundle.min.js"
+          )
         )
       )
     )
