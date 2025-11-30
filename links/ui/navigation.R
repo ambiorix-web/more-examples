@@ -3,6 +3,11 @@ box::use(
     tags,
     tagList,
   ],
+  .. /
+    utils /
+    create_href[
+      create_href,
+    ],
 )
 
 #' Build URL path for page/panel/tab
@@ -30,7 +35,8 @@ path_for <- function(page, panel = NULL, tab = NULL) {
     FUN.VALUE = character(1)
   )
 
-  paste0("/pages/", paste(encoded, collapse = "/"))
+  path <- paste0("/pages/", paste(encoded, collapse = "/"))
+  create_href(href = path)
 }
 
 #' Compose href with query parameters
