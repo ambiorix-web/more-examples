@@ -31,10 +31,21 @@ UI <- function() {
         tags$p(
           "Upload data, get API endpoints. Nothing else."
         ),
-        FileInput(
-          id = "file",
-          label = "CSV file",
-          accept = ".csv, text/csv"
+        tags$form(
+          action = "/upload",
+          enctype = "multipart/form-data",
+          method = "post",
+          FileInput(
+            id = "file",
+            label = "CSV file",
+            accept = ".csv, text/csv"
+          ),
+          tags$button(
+            id = "upload",
+            type = "submit",
+            class = "btn btn-sm btn-dark mt-3 d-none",
+            "Upload"
+          )
         )
       )
     ),
