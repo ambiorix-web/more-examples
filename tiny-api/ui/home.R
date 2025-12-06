@@ -18,8 +18,10 @@ box::use(
 
 #' Home page UI
 #'
+#' @param ... [htmltools::tags] /// Optional. Tags to insert
+#'        after the home card.
 #' @export
-UI <- function() {
+UI <- function(...) {
   content <- tagList(
     tags$div(
       class = "container",
@@ -32,12 +34,19 @@ UI <- function() {
           "Upload data, get API endpoints. Nothing else."
         ),
         tags$form(
-          action = "/upload",
+          action = "/",
           enctype = "multipart/form-data",
           method = "post",
           FileInput(
             id = "file",
-            label = "CSV file",
+            label = tags$p(
+              class = "mb-0",
+              "CSV file",
+              tags$small(
+                class = "fw-bold",
+                " (< 5MB)"
+              )
+            ),
             accept = ".csv, text/csv"
           ),
           tags$button(
@@ -47,7 +56,8 @@ UI <- function() {
             "Upload"
           )
         )
-      )
+      ),
+      ...
     ),
     tags$script(src = "/static/main.js")
   )
