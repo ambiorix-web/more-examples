@@ -14,6 +14,7 @@ box::use(
     card[
       Card,
     ],
+  .. / utils / create_href[create_href],
 )
 
 #' Home page UI
@@ -62,7 +63,9 @@ UI <- function(...) {
       ),
       ...
     ),
-    tags$script(src = "/static/main.js")
+    tags$script(
+      src = create_href(href = "/static/main.js")
+    )
   )
 
   Page(content, page = "home")
