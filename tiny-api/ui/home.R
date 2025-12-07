@@ -32,7 +32,7 @@ UI <- function(...) {
       Card(
         class = "border-0 shadow-sm",
         body_class = "p-4",
-        title = "Upload Data",
+        title = "Tiny API",
         title_class = "mb-3",
         tags$p(
           "Upload data, get API endpoints. Nothing else."
@@ -43,12 +43,18 @@ UI <- function(...) {
           method = "post",
           FileInput(
             id = "file",
-            label = tags$p(
-              class = "mb-0",
-              "CSV file",
-              tags$small(
+            label = tagList(
+              tags$p(
                 class = "fw-bold",
-                " (< 5MB)"
+                "Select a csv file",
+              ),
+              tags$p(
+                class = "mb-0 small text-muted",
+                "Max file size:",
+                tags$small(
+                  class = "fw-bold",
+                  "5MB"
+                )
               )
             ),
             accept = ".csv, text/csv"
