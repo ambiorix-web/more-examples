@@ -7,6 +7,11 @@ box::use(
     tagList,
   ],
   .. / ui / home[UI],
+  .. /
+    db[
+      read_table,
+      create_table,
+    ],
 )
 
 #' Handle GET at '/'
@@ -53,14 +58,36 @@ home_post <- function(req, res) {
   csv_data <- rawToChar(csv_details$value) |> fread()
   table_name <- UUIDgenerate()
 
-  write_table(name = table_name, data = csv_data)
+  create_table(name = table_name, data = csv_data)
+
+  href <- sprintf("/%s", table_name)
 
   html <- UI(
-    tags$p(
-      class = "text-success fw-bold",
-      "Successfully uploaded. Redirecting..."
+    tags$div(
+      class = "alert alert-success",
+      role = "alert",
+      "Success. Find your data in JSON format",
+      tags$a(
+        href = href,
+        "here"
+      )
     )
   )
 
   res$send(html)
+}
+
+#' Handler for GET at '/:table'
+#'
+#' @export
+table_get <- function(req, res) {
+  name <- req$params$table
+  data <- read_table(name = name)
+
+  response <- list(
+    msg = "success",
+    data = data
+  )
+
+  res$json(response)
 }
