@@ -7,10 +7,14 @@ box::use(
     tagList,
   ],
   .. / ui / home[UI],
+  .. / ui / docs[DocsUI = UI],
   .. /
     db[
       read_table,
       create_table,
+      delete_table,
+      list_tables,
+      table_exists,
     ],
 )
 
@@ -88,20 +92,80 @@ home_post <- function(req, res) {
 #' @export
 table_get <- function(req, res) {
   name <- req$params$table
-  data <- read_table(name = name)
+
+  if (!table_exists(name = name)) {
+    res$status <- 404L
+
+    return(
+      res$json(list(
+        msg = "Failed. Not found."
+      ))
+    )
+  }
+
+  limit <- req$query$limit
+  offset <- req$query$offset
+
+  if (!is.null(limit)) {
+    limit <- as.integer(limit)
+  }
+
+  if (!is.null(offset)) {
+    offset <- as.integer(offset)
+  }
+
+  data <- read_table(name = name, limit = limit, offset = offset)
 
   response <- list(
     msg = "Success",
     data = data
   )
 
-  if (!nrow(data)) {
+  res$json(response)
+}
+
+#' Handler for DELETE at '/:table'
+#'
+#' @export
+table_delete <- function(req, res) {
+  name <- req$params$table
+
+  if (!table_exists(name = name)) {
     res$status <- 404L
 
-    response <- list(
-      msg = "Failed. Not found."
+    return(
+      res$json(list(
+        msg = "Failed. Not found."
+      ))
     )
   }
 
+  delete_table(name = name)
+
+  res$json(list(
+    msg = "Success. Table deleted."
+  ))
+}
+
+#' Handler for GET at '/tables'
+#'
+#' @export
+tables_get <- function(req, res) {
+  tables <- list_tables()
+
+  response <- list(
+    msg = "Success",
+    data = tables
+  )
+
   res$json(response)
+}
+
+#' Handler for GET at '/docs'
+#'
+#' @export
+docs_get <- function(req, res) {
+  html <- DocsUI()
+
+  res$send(html)
 }

@@ -6,6 +6,7 @@ box::use(
     dbDisconnect,
     dbExistsTable,
     dbRemoveTable,
+    dbListTables,
   ],
   data.table[
     data.table,
@@ -63,12 +64,14 @@ delete_table <- function(name) {
 #' Read Table
 #'
 #' @param name String /// Required. Name of the table.
+#' @param limit Integer /// Optional. Max rows to return.
+#' @param offset Integer /// Optional. Rows to skip.
 #'
 #' @return data.table. If a table with `name` is not found,
 #'         returns a 0-row data.table.
 #'
 #' @export
-read_table <- function(name) {
+read_table <- function(name, limit = NULL, offset = NULL) {
   con <- db_connect()
   on.exit(dbDisconnect(conn = con))
 
@@ -78,6 +81,42 @@ read_table <- function(name) {
     )
   }
 
-  dbReadTable(conn = con, name = name) |>
+  data <- dbReadTable(conn = con, name = name) |>
     as.data.table()
+
+  if (!is.null(offset)) {
+    data <- data[-(1:offset)]
+  }
+
+  if (!is.null(limit)) {
+    data <- head(data, limit)
+  }
+
+  data
+}
+
+#' List All Tables
+#'
+#' @return Character vector of table names.
+#'
+#' @export
+list_tables <- function() {
+  con <- db_connect()
+  on.exit(dbDisconnect(conn = con))
+
+  dbListTables(conn = con)
+}
+
+#' Check If Table Exists
+#'
+#' @param name String /// Required. Name of the table.
+#'
+#' @return Logical
+#'
+#' @export
+table_exists <- function(name) {
+  con <- db_connect()
+  on.exit(dbDisconnect(conn = con))
+
+  dbExistsTable(conn = con, name = name)
 }
