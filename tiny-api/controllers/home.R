@@ -91,9 +91,17 @@ table_get <- function(req, res) {
   data <- read_table(name = name)
 
   response <- list(
-    msg = "success",
+    msg = "Success",
     data = data
   )
+
+  if (!nrow(data)) {
+    res$status <- 404L
+
+    response <- list(
+      msg = "Failed. Not found."
+    )
+  }
 
   res$json(response)
 }

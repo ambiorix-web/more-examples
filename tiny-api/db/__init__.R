@@ -8,6 +8,7 @@ box::use(
     dbRemoveTable,
   ],
   data.table[
+    data.table,
     as.data.table,
   ],
   RSQLite[
