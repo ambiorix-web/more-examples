@@ -38,7 +38,7 @@ UI <- function(...) {
           "Upload data, get API endpoints. Nothing else."
         ),
         tags$form(
-          action = "/",
+          action = create_href(href = "/"),
           enctype = "multipart/form-data",
           method = "post",
           FileInput(
