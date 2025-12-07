@@ -84,12 +84,12 @@ read_table <- function(name, limit = NULL, offset = NULL) {
   data <- dbReadTable(conn = con, name = name) |>
     as.data.table()
 
-  if (!is.null(offset)) {
+  if (!is.null(offset) && offset <= nrow(data)) {
     data <- data[-(1:offset)]
   }
 
-  if (!is.null(limit)) {
-    data <- head(data, limit)
+  if (!is.null(limit) && limit <= nrow(data)) {
+    data <- data[1:limit]
   }
 
   data

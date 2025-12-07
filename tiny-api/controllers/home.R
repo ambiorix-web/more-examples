@@ -111,12 +111,16 @@ table_get <- function(req, res) {
   limit <- req$query$limit
   offset <- req$query$offset
 
-  if (!is.null(limit)) {
-    limit <- as.integer(limit)
+  limit <- as.integer(limit)
+
+  if (!length(limit) || is.na(limit)) {
+    limit <- NULL
   }
 
-  if (!is.null(offset)) {
-    offset <- as.integer(offset)
+  offset <- as.integer(offset)
+
+  if (!length(offset) || is.na(offset)) {
+    offset <- NULL
   }
 
   data <- read_table(name = name, limit = limit, offset = offset)
