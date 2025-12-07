@@ -27,7 +27,7 @@ UI <- function() {
       "Upload data, get API endpoints. Nothing else."
     ),
 
-    section(
+    Section(
       title = "Overview",
       tags$p(
         "Tiny API lets you upload CSV files and instantly get ",
@@ -41,14 +41,14 @@ UI <- function() {
       )
     ),
 
-    section(
+    Section(
       title = "Endpoints",
-      endpoint(
+      Endpoint(
         method = "GET",
         path = "/",
         description = "Home page with file upload form."
       ),
-      endpoint(
+      Endpoint(
         method = "POST",
         path = "/",
         description = "Upload a CSV file. Returns a redirect to the home page with a link to your data.",
@@ -60,13 +60,13 @@ UI <- function() {
           )
         )
       ),
-      endpoint(
+      Endpoint(
         method = "GET",
         path = "/tables",
         description = "List all available tables.",
         example_response = '{"msg": "Success", "data": ["uuid-1", "uuid-2"]}'
       ),
-      endpoint(
+      Endpoint(
         method = "GET",
         path = "/:table",
         description = "Retrieve data from a table.",
@@ -84,7 +84,7 @@ UI <- function() {
         ),
         example_response = '{"msg": "Success", "data": [...]}'
       ),
-      endpoint(
+      Endpoint(
         method = "DELETE",
         path = "/:table",
         description = "Delete a table.",
@@ -92,24 +92,26 @@ UI <- function() {
       )
     ),
 
-    section(
+    Section(
       title = "Examples",
       tags$h5("Upload a file"),
-      code_block('curl -X POST -F "file=@data.csv" http://localhost:3000/'),
+      CodeBlock('curl -X POST -F "file=@data.csv" http://localhost:3000/'),
       tags$h5(class = "mt-4", "List all tables"),
-      code_block("curl http://localhost:3000/tables"),
+      CodeBlock("curl http://localhost:3000/tables"),
       tags$h5(class = "mt-4", "Get data"),
-      code_block("curl http://localhost:3000/{table-uuid}"),
+      CodeBlock("curl http://localhost:3000/{table-uuid}"),
       tags$h5(class = "mt-4", "Get data with pagination"),
-      code_block("curl \"http://localhost:3000/{table-uuid}?limit=10&offset=0\""),
+      CodeBlock(
+        "curl \"http://localhost:3000/{table-uuid}?limit=10&offset=0\""
+      ),
       tags$h5(class = "mt-4", "Delete a table"),
-      code_block("curl -X DELETE http://localhost:3000/{table-uuid}")
+      CodeBlock("curl -X DELETE http://localhost:3000/{table-uuid}")
     ),
 
-    section(
+    Section(
       title = "Error Responses",
       tags$p("When a table is not found:"),
-      code_block('{"msg": "Failed. Not found."}', lang = "json"),
+      CodeBlock('{"msg": "Failed. Not found."}', lang = "json"),
       tags$p(class = "mt-3", "HTTP status code: ", tags$code("404"))
     )
   )
@@ -117,11 +119,13 @@ UI <- function() {
   Page(content, title = "Docs | Tiny API")
 }
 
-#' Section helper
+#' Section
 #'
-#' @param title String. Section title.
-#' @param ... Content.
-section <- function(title, ...) {
+#' @param title String /// Required. Section title.
+#' @param ... [htmltools::tags] /// Optional. Content.
+#'
+#' @return [Card()]
+Section <- function(title, ...) {
   Card(
     class = "border-0 mb-4 shadow-sm",
     body_class = "p-4",
@@ -131,27 +135,47 @@ section <- function(title, ...) {
   )
 }
 
-#' Endpoint documentation helper
+#' Document an Endpoint
 #'
-#' @param method String. HTTP method.
-#' @param path String. Endpoint path.
-#' @param description String. Description.
-#' @param params List. Optional parameters.
-#' @param example_response String. Optional example response.
-endpoint <- function(
-  method,
+#' @param method String /// Optional. HTTP method.
+#'        Valid values are:
+#'        - "GET" (default)
+#'        - "POST"
+#'        - "DELETE"
+#' @param path String /// Required. Endpoint path.
+#' @param description String /// Required. Description.
+#' @param params List /// Optional. Parameters.
+#' @param example_response String /// Optional. Example response.
+#'
+#' @return [htmltools::tags]
+Endpoint <- function(
+  method = c("GET", "POST", "DELETE"),
   path,
   description,
   params = NULL,
   example_response = NULL
 ) {
+  method <- match.arg(arg = method)
   method_class <- switch(
     method,
     GET = "bg-success",
     POST = "bg-primary",
-    DELETE = "bg-danger",
-    "bg-secondary"
+    DELETE = "bg-danger"
   )
+
+  params_html <- NULL
+  if (!is.null(params)) {
+    params_html <- tags$ul(
+      class = "mb-2",
+      lapply(params, function(p) {
+        tags$li(
+          tags$code(p$name),
+          paste0(" (", p$type, "): "),
+          p$desc
+        )
+      })
+    )
+  }
 
   tagList(
     tags$div(
@@ -163,29 +187,22 @@ endpoint <- function(
       tags$code(path)
     ),
     tags$p(class = "mb-2", description),
-    if (!is.null(params)) {
-      tags$ul(
-        class = "mb-2",
-        lapply(params, function(p) {
-          tags$li(
-            tags$code(p$name),
-            paste0(" (", p$type, "): "),
-            p$desc
-          )
-        })
-      )
-    },
+    params_html,
+
     if (!is.null(example_response)) {
-      code_block(example_response, lang = "json")
+      CodeBlock(example_response, lang = "json")
     }
   )
 }
 
-#' Code block helper
+#' Code Block
 #'
-#' @param code String. Code content.
-#' @param lang String. Language (for styling).
-code_block <- function(code, lang = "bash") {
+#' @param code String /// Required. Code content.
+#' @param lang String /// Optional. Language (for styling).
+#'        Defaults to "bash".
+#'
+#' @return [htmltools::tags$pre]
+CodeBlock <- function(code, lang = "bash") {
   tags$pre(
     class = "bg-dark text-light p-3 rounded",
     tags$code(code)
