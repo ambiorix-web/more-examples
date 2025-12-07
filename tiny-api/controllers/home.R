@@ -18,7 +18,24 @@ box::use(
 #'
 #' @export
 home_get <- function(req, res) {
-  res$send(UI())
+  link <- req$query$link
+  link_html <- NULL
+
+  if (!is.null(link) && !is.na(link)) {
+    link_html <- tags$div(
+      class = "alert alert-success",
+      role = "alert",
+      "Success. Find your data in JSON format",
+      tags$a(
+        href = paste0("/", link),
+        "here."
+      )
+    )
+  }
+
+  html <- UI(link_html)
+
+  res$send(html)
 }
 
 #' Handle POST at '/'
@@ -60,21 +77,10 @@ home_post <- function(req, res) {
 
   create_table(name = table_name, data = csv_data)
 
-  href <- sprintf("/%s", table_name)
+  path <- sprintf("/?link=%s", table_name)
 
-  html <- UI(
-    tags$div(
-      class = "alert alert-success",
-      role = "alert",
-      "Success. Find your data in JSON format",
-      tags$a(
-        href = href,
-        "here"
-      )
-    )
-  )
-
-  res$send(html)
+  res$status <- 302L
+  res$redirect(path = path)
 }
 
 #' Handler for GET at '/:table'
