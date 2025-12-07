@@ -20,16 +20,19 @@ box::use(
 #'
 #' @param ... [htmltools::tags] /// Optional. Tags to insert
 #'        after the home card.
+#'
+#' @return [htmltools::tagList]
+#'
 #' @export
 UI <- function(...) {
   content <- tagList(
     tags$div(
-      class = "container",
+      class = "container my-5",
       Card(
-        class = "border-0 my-5 shadow-sm",
+        class = "border-0 shadow-sm",
         body_class = "p-4",
-        title = "Tiny API",
-        title_class = "mb-4",
+        title = "Upload Data",
+        title_class = "mb-3",
         tags$p(
           "Upload data, get API endpoints. Nothing else."
         ),
@@ -62,5 +65,5 @@ UI <- function(...) {
     tags$script(src = "/static/main.js")
   )
 
-  Page(content)
+  Page(content, page = "home")
 }

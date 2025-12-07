@@ -9,20 +9,37 @@ box::use(
     create_href[
       create_href,
     ],
+  . / components / navbar[Navbar],
 )
 
 #' Generic UI page
 #'
 #' A generic bootstrap UI page.
 #'
-#' @param ... [htmltools::tags] Passed to the HTML
-#' document body.
-#' @param title String. Browser title.
+#' @param ... [htmltools::tags] /// Optional. Passed to the HTML
+#'        document body.
+#' @param title String /// Optional. Browser title.
+#'        Defaults to "Tiny API".
+#' @param page String /// Optional. The current page.
+#'        Valid values are:
+#'        - "home" (default)
+#'        - "docs"
 #'
 #' @return [htmltools::tagList]
 #'
 #' @export
-Page <- function(..., title = "Tiny API") {
+Page <- function(
+  ...,
+  title = "Tiny API",
+  page = c("home", "docs")
+) {
+  page <- match.arg(arg = page)
+  selected <- switch(
+    EXPR = page,
+    home = "/",
+    docs = "/docs"
+  )
+
   tagList(
     HTML("<!doctype html>"),
     tags$html(
@@ -41,6 +58,7 @@ Page <- function(..., title = "Tiny API") {
       ),
       tags$body(
         class = "bg-light",
+        Navbar(selected = selected),
         ...,
         tags$script(
           src = create_href(

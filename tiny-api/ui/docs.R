@@ -14,13 +14,15 @@ box::use(
 
 #' Docs page UI
 #'
+#' @return [htmltools::tagList]
+#'
 #' @export
 UI <- function() {
   content <- tags$div(
     class = "container my-5",
     tags$h1(
       class = "mb-4",
-      "Tiny API"
+      "Documentation"
     ),
     tags$p(
       class = "lead mb-5",
@@ -116,7 +118,7 @@ UI <- function() {
     )
   )
 
-  Page(content, title = "Docs | Tiny API")
+  Page(content, title = "Docs | Tiny API", page = "docs")
 }
 
 #' Section

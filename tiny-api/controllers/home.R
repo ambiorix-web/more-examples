@@ -16,6 +16,7 @@ box::use(
       list_tables,
       table_exists,
     ],
+  .. / utils / create_href[create_href],
 )
 
 #' Handle GET at '/'
@@ -31,7 +32,9 @@ home_get <- function(req, res) {
       role = "alert",
       "Success. Find your data in JSON format",
       tags$a(
-        href = paste0("/", link),
+        href = create_href(
+          href = paste0("/", link)
+        ),
         "here."
       )
     )
@@ -81,7 +84,9 @@ home_post <- function(req, res) {
 
   create_table(name = table_name, data = csv_data)
 
-  path <- sprintf("/?link=%s", table_name)
+  path <- create_href(
+    href = sprintf("/?link=%s", table_name)
+  )
 
   res$status <- 302L
   res$redirect(path = path)

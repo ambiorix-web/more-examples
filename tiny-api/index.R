@@ -1,3 +1,4 @@
+box::purge_cache()
 box::use(
   ambiorix[Ambiorix],
   . /
